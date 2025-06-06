@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "*************"
+echo "HIKE PLAN"
+echo "*************"
+echo -e "\n"
+echo "Check out the following files into this branch:"
+echo "  * At least 1 option from the 'shelter' branch"
+echo "  * At least 2 options from the 'food' branch"
+echo "  * At least 2 options from the 'clothes' branch, one of which must be hiking-boots"
+echo -e "\n"
+echo "When you're done, commit your work and run ./next to check it!"
+
+git checkout -q main
+git branch -q -D plan &>/dev/null
+git checkout -q -b plan
+
+rm -rf .state
+mkdir .state
+touch .state/error-count
+echo "0" > .state/error-count
