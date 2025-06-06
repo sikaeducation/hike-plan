@@ -1,0 +1,22 @@
+#!/bin/bash
+
+git checkout main
+git add -A && git commit --amend --no-edit && git push -f
+
+BRANCHES=(\
+'food' \
+'shelter' \
+'clothing' \
+)
+
+for BRANCH in "${BRANCHES[@]}"
+do
+  git checkout "${BRANCH}"
+  git checkout main -- README.md .gitignore
+  git checkout food -- next new-game
+  git add -A
+  git commit --amend --no-edit
+  git push -f origin "${BRANCH}"
+done
+
+git checkout main

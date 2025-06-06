@@ -1,0 +1,127 @@
+#!/bin/bash
+
+ERROR_COUNT=`cat .state/error-count`
+PASSING=1
+
+git checkout -q plan
+
+check_commit() {
+  STATUS=`git status`
+  if [[ -n "${STATUS}" ]]; then
+    PASSING=0
+    ((ERROR_COUNT+=1))
+    echo "${ERROR_COUNT}" > .state/error-count
+    echo "Oops! Make sure to commit your work."
+    exit 1
+  fi
+}
+
+check_shelter_selections() {
+  REMAINING_SHELTER_MATCHES=1
+
+  SHELTER_SELECTIONS=(shelter/*)
+  SHELTER_OPTIONS=(\
+  'shelter/tent' \
+  'shelter/camping-hammock' \
+  'shelter/bivvy-sack' \
+  'shelter/tarp' \
+  )
+
+  for SELECTION in "${SHELTER_SELECTIONS[@]}"
+  do
+    for OPTION in "${SHELTER_OPTIONS[@]}"
+    do
+      if [[ "${SELECTION}" == "${OPTION}" ]] && [[ "${REMAINING_SHELTER_MATCHES}" -ne 0 ]]; then
+        ((REMAINING_SHELTER_MATCHES+=-1))
+      fi
+    done
+  done
+
+  if [[ REMAINING_SHELTER_MATCHES -gt 0 ]]; then
+    PASSING=0
+    ((ERROR_COUNT+=1))
+    echo "${ERROR_COUNT}" > .state/error-count
+    echo "Oops! Missing items from the 'shelter' branch."
+    exit 1
+  fi
+}
+
+check_food_selections() {
+  REMAINING_FOOD_MATCHES=2
+
+  FOOD_SELECTIONS=(food/*)
+  FOOD_OPTIONS=(\
+  'food/gorp' \
+  'food/beef-sticks' \
+  'food/dried-fruit' \
+  'food/power-bars' \
+  )
+  for SELECTION in "${FOOD_SELECTIONS[@]}"
+  do
+    for OPTION in "${FOOD_OPTIONS[@]}"
+    do
+      if [[ "${SELECTION}" == "${OPTION}" ]] && [[ "${REMAINING_FOOD_MATCHES}" -ne 0 ]]; then
+        ((REMAINING_FOOD_MATCHES+=-1))
+      fi
+    done
+  done
+
+  if [[ "${REMAINING_FOOD_MATCHES}" -gt 0 ]]; then
+    PASSING=0
+    ((ERROR_COUNT+=1))
+    echo "${ERROR_COUNT}" > .state/error-count
+    echo "Oops! Missing items from the 'food' branch."
+    exit 1
+  fi
+}
+
+check_clothes_selections() {
+  REMAINING_CLOTHES_MATCHES=2
+  HIKING_BOOTS_FOUND=0
+
+  CLOTHES_SELECTIONS=(clothes/*)
+  CLOTHES_OPTIONS=(\
+  'clothes/gaiters' \
+  'clothes/gloves' \
+  'clothes/hiking-boots' \
+  'clothes/poncho' \
+  'clothes/rain-jacket' \
+  'clothes/rain-pants' \
+  )
+  for SELECTION in "${CLOTHES_SELECTIONS[@]}"
+  do
+    if [[ "${SELECTION}" == 'clothes/hiking-boots' ]]; then
+      HIKING_BOOTS_FOUND=1
+    fi
+    for OPTION in "${CLOTHES_OPTIONS[@]}"
+    do
+      if [[ "${SELECTION}" == "${OPTION}" ]] && [[ "${REMAINING_CLOTHES_MATCHES}" -ne 0 ]]; then
+        ((REMAINING_CLOTHES_MATCHES+=-1))
+      fi
+    done
+  done
+
+  if [[ "${HIKING_BOOTS_FOUND}" -eq 0 ]]; then
+    PASSING=0
+    ((ERROR_COUNT+=1))
+    echo "${ERROR_COUNT}" > .state/error-count
+    echo "Oops! Missing hiking boots from the 'clothing' branch."
+    exit 1
+  fi
+  if [[ "${REMAINING_CLOTHES_MATCHES}" -gt 0 ]]; then
+    PASSING=0
+    ((ERROR_COUNT+=1))
+    echo "${ERROR_COUNT}" > .state/error-count
+    echo "Oops! Missing items from the 'clothing' branch."
+    exit 1
+  fi
+}
+
+check_commit
+check_shelter_selections
+check_food_selections
+check_clothes_selections
+
+if [[ "${PASSING}" -eq 1 ]]; then
+    echo "Victory! You can checkout files from other branches. Run './new-game' to play the game again."
+fi
