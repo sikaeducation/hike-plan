@@ -35,3 +35,5 @@ To copy a file or folder from another branch:
    from the `food` branch into your current branch.
 
 Use tab completion to help with spelling!
+
+[Game 4](https://github.com/sikaeducation/hike-packing)
