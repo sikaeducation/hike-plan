@@ -13,7 +13,7 @@ containing the items you want to bring with you.
    - 1 shelter option
    - 2 food options
    - 3 clothing options, 1 of which must be hiking books
-4. Run `./finish` in your terminal to check your work!
+4. Run `./next` in your terminal to check your work!
 
 If you make a mistake, run `./start` to start over.
 
