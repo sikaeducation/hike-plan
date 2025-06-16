@@ -1,0 +1,4 @@
+#!/bin/bash
+
+git checkout -q main
+./new-game
