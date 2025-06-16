@@ -1,0 +1,7 @@
+#!/bin/bash
+
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+if [[ $CURRENT_BRANCH != 'plan' ]]; then
+  echo "Check out the 'plan' branch before running this command."
+fi
