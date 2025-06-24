@@ -21,8 +21,8 @@ If you make a mistake, run `./new-game` to start over.
 
 ### Exploring Commits
 
-- See which branches are available with `git branch`
-- Switch branches with `git switch branch-name-here`, such as `git switch food`.
+- See which branches are available with `git branch -a`
+- Switch branches with `git switch <branch_name_here>`, such as `git switch food`.
 - Navigate back to your previous branch with `git switch -`
 
 ### Getting Files From Other Branches
@@ -32,17 +32,17 @@ To copy a file or folder from another branch:
 1. Switch to the **destination** branch
 2. Use one of the following options:
    - **Traditional**: Run
-     `git checkout branch-name-here -- file-or-folder-to-copy`. For example,
+     `git checkout <branch_name_here> -- <file_or_folder_to_copy>`. For example,
      `git checkout food -- food/trail-mix` copies the file `food/trail-mix` from
      the `food` branch into your current branch.
    - **Modern**: Run
-     `git restore --source=branch-name-here file-or-folder-to-copy`. For
+     `git restore --source=<branch_name_here> <file_or_folder_to_copy>`. For
      example, `git restore --source=food food/trail-mix` copies the file
      `food/trail-mix` from the `food` branch into your current branch.
 
 Use tab completion to help with spelling!
 
-## Relevance
+## Why This Matters
 
 Checking out files from other branches is useful in situations like:
 
@@ -50,4 +50,4 @@ Checking out files from other branches is useful in situations like:
 - Recovering files from old commits that were deleted or changed
 - Using scripts, setup files, or seeds temporarily
 
-[Game 4](https://github.com/sikaeducation/hike-packing)
+Game 4: [Hike Packing](https://github.com/sikaeducation/hike-packing)
