@@ -10,7 +10,7 @@ PASSING=1
 git checkout -q plan
 
 check_commit() {
-  git config status.short true
+  git config --global --replace-all status.short true
   STATUS=`git status`
   if [[ -n "${STATUS}" ]]; then
     PASSING=0
