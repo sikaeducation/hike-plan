@@ -10,7 +10,7 @@ PASSING=1
 git checkout -q plan
 
 check_commit() {
-  STATUS=`git status`
+  STATUS=`git status --no-ahead-behind --short`
   if [[ -n "${STATUS}" ]]; then
     PASSING=0
     ((ERROR_COUNT+=1))
